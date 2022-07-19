@@ -25,10 +25,7 @@ def entero_a_romano(numero):
     for n in numero:
         longitud -= 1
         digito = n + "0" * longitud
-
-        valor_romano = n_romanos.get(digito)   
-        if valor_romano != None:
-            numero_romano += valor_romano      
+        numero_romano += n_romanos.get(digito,"")      
               
     return numero_romano
 
