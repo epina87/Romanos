@@ -38,14 +38,27 @@ def romano_a_entero(n_romano):
 
         contador_posiciones_sumar = 0
         contador_valores_iguales  = 1
-        while ix<len(n_romano2):
+
+        valor_entero_final = 0
+        while ix<len(n_romano2):            
             valor_siguiente = n_romano[ix]
             valor_entero_siguiente = dic_romano.get(valor_siguiente,"error") 
             if valor_entero_siguiente == "error":
                 error = "Valores Incorrectos"
                 break
             elif valor_entero_siguiente > valor_entero:
-                valor_entero = valor_entero_siguiente - valor_entero
+                posicion_anterior = ix - 1
+                if posicion_anterior != 0:
+                    valor_anterior = n_romano[posicion_anterior]
+                    valor_entero_anterior =  dic_romano.get(valor_anterior,"")
+                else:
+                    valor_entero_anterior = 0    
+                    
+                valor_entero_restado,error = restar_valor(valor_entero,valor_entero_siguiente,valor_entero_anterior)
+                if error == "":
+                    valor_entero_final += valor_entero_restado
+                else:
+                    break
                 contador_posiciones_sumar += 1 
             elif valor_entero_siguiente == valor_entero:
                 contador_valores_iguales += 1
@@ -53,21 +66,42 @@ def romano_a_entero(n_romano):
                 break           
             ix += 1 
 
-        if contador_valores_iguales > 3:
+        if contador_valores_iguales > 3 or error!="":
             numero_entero = 0
             error = "El número romano no es correcto"
             break
+        if valor_entero_final != 0:
+            valor_entero = valor_entero_final       
 
-        numero_entero += valor_entero        
+        numero_entero += valor_entero     
         posicion_n_romano += 1 + contador_posiciones_sumar
     
     return numero_entero,error
 
 
-valor = input("Número romano:")
+def restar_valor(valor_entero,valor_entero_siguiente,valor_entero_anterior):
+    error = ''
+    if valor_entero_anterior == valor_entero:
+        valor_entero_restado = 0
+        error = "El número romano no es correcto"
+    else:        
+        if valor_entero== 1 and (valor_entero_siguiente ==5 or valor_entero_siguiente ==10 ):
+            valor_entero_restado = valor_entero_siguiente - valor_entero
+        elif valor_entero== 10 and (valor_entero_siguiente ==50 or valor_entero_siguiente ==100 ):
+            valor_entero_restado = valor_entero_siguiente - valor_entero
+        elif valor_entero== 100 and (valor_entero_siguiente ==500 or valor_entero_siguiente ==1000 ):
+            valor_entero_restado = valor_entero_siguiente - valor_entero
+        else:
+            valor_entero_restado = 0
+            error = "El número romano no es correcto"
+
+    return valor_entero_restado,error
+
+
+valor = input("Número romano:").upper()
 valor_romano,error = romano_a_entero(valor)
 if error == "":
     print("Valor entero: ",  valor_romano)
 else:
     print(error)
-        
+     
