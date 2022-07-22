@@ -78,7 +78,6 @@ def romano_a_entero(n_romano):
     
     return numero_entero,error
 
-
 def restar_valor(valor_entero,valor_entero_siguiente,valor_entero_anterior):
     error = ''
     if valor_entero_anterior == valor_entero:
@@ -104,4 +103,5 @@ if error == "":
     print("Valor entero: ",  valor_romano)
 else:
     print(error)
+     
      

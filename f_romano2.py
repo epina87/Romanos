@@ -29,6 +29,4 @@ def entero_a_romano(numero):
               
     return numero_romano
 
-valor = input("Número entero:")
-valor_romano = entero_a_romano(valor)
-print("Valor en romano: " +  valor_romano)
+
