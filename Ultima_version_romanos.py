@@ -46,6 +46,7 @@ def romano_a_entero(romano: str) -> int:
     r = 0
     cont_repes = 1
     car_anterior = ""
+    car_anteanterior = ""
     for caracter in romano:
         if caracter == car_anterior:
             cont_repes += 1
@@ -54,36 +55,29 @@ def romano_a_entero(romano: str) -> int:
 
         if cont_repes > 3:
             raise RomanNumberError("No se pueden dar más de tres repeticiones")
-        
-        if simbolos_romanos[caracter] > simbolos_romanos[car_anterior]:
+        elif cont_repes == 2 and caracter in "VLD":
+            raise RomanNumberError(f"No se puede repetir {caracter}")             
+
+
+        if car_anterior and simbolos_romanos[caracter] > simbolos_romanos[car_anterior]:
         # Forma de diccionario restas
             if car_anterior not in restas.keys():
                 raise RomanNumberError("El simbolo {} no puede restar".format(car_anterior))
 
-            if caracter in restas[car_anterior]:
-                pass
-            else:
+            if caracter not in restas[car_anterior]:
                 raise RomanNumberError(f"{car_anterior} solo se puede restar a {restas[car_anterior][0]} y {restas[car_anterior][1]}")         
 
-        # Forma de ifs a capon
-            if car_anterior == 'I' and caracter != 'X' and caracter != 'V':
-                raise RomanNumberError("I solo se puede restar a V y X")
-            if car_anterior == 'X' and caracter != 'L' and caracter != 'C':
-                raise RomanNumberError("X solo se puede restar a L y C")
-            if car_anterior == 'C' and caracter != 'D' and caracter != 'M':
-                raise RomanNumberError("I solo se puede restar a V y X")
-
-        # Forma de Alfredo
-            if car_anterior not in "IXC" or numeros_romanos.index(caracter) - numeros_romanos.index(car_anterior) > 2:
-                raise RomanNumberError(f"{car_anterior} solo se puede restar a {numeros_romanos[numeros_romanos.index(car_anterior) + 1]} y {numeros_romanos[numeros_romanos.index(car_anterior) + 2]}")
-
-            
+            if car_anterior == car_anteanterior:
+                raise RomanNumberError("Si hay repeticion ya no se resta")
 
             r -= simbolos_romanos[car_anterior] * 2
 
 
         r += simbolos_romanos[caracter]
+        car_anteanterior = car_anterior
         car_anterior = caracter
     
 
     return r
+
+romano_a_entero("II")

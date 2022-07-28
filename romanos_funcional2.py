@@ -1,3 +1,5 @@
+from turtle import position
+
 componentes = {
     1000: 'M', 2000: 'MM', 3000: 'MMM', 
     100: 'C', 200: 'CC', 300: 'CCC',
@@ -35,6 +37,14 @@ def entero_a_romano(numero):
 
     return romano
 
+simbolos_romanos  = {
+    'M': 1000, 'D': 500, 'C': 100, 'L': 50, 'X': 10, 'V': 5, 'I': 1, '': 0
+}
+ 
+simbolos_romanos_resta  = {
+    'I': ('V','X'), 'X':('L','C'), 'C': ('D','M'), '':('none')
+}
+
 def romano_a_entero(romano: str) -> int:
     r = 0
     cont_repes = 1
@@ -47,8 +57,6 @@ def romano_a_entero(romano: str) -> int:
             cont_repes = 1        
         if cont_repes > 3:
             raise RomanNumberError("No se pueden dar más de tres repeticiones")
-        
-        print(caracter)
 
         #Control calculo con mayor que el anterior
         if simbolos_romanos[caracter] > simbolos_romanos[car_anterior]:
@@ -62,12 +70,10 @@ def romano_a_entero(romano: str) -> int:
             elif tupla_resta != 'none':
                 #control restas con valores correctos
                 if tupla_resta[0] == caracter or tupla_resta[1] == caracter:
-
                     #Control restar digitos respectivos
                     posicion_2_anterior = pos - 1
                     if posicion_2_anterior!= 0 and car_anterior == romano[posicion_2_anterior]:
                         raise RomanNumberError("No se pueden restar repetidos")     
-
                 else:
                     raise RomanNumberError("No se pueden restar")  
           
@@ -77,13 +83,7 @@ def romano_a_entero(romano: str) -> int:
         #control  "D", "L" y "V" no se pueden repetir.
         if cont_repes >1 and str(simbolos_romanos[caracter])[0] == '5':
             raise RomanNumberError("No se puede repetir 'D','L','V'")    
-
+            
     return r
-
-
-valor = input("valor:")
-
-valor_entero = romano_a_entero(valor)
-#print(valor_entero)
 
     

@@ -1,6 +1,6 @@
 import pytest
 
-from romanos_funcional import entero_a_romano, romano_a_entero, RomanNumberError
+from romanos_funcional2 import entero_a_romano, romano_a_entero, RomanNumberError
 
 """
 Casos de prueba 
@@ -51,8 +51,6 @@ def test_romano_a_entero_restar_no_validos():
     
     assert str(exceptionInfo.value) == "Solo se puede restar 'I', 'X', 'C'"
 
-
-
 def test_romano_a_entero_restar_I():
 
     with pytest.raises(RomanNumberError) as  exceptionInfo:
@@ -71,6 +69,8 @@ def test_romano_a_entero_restar_X():
 def test_romano_a_entero_restar_repetido():
 
     with pytest.raises(RomanNumberError) as  exceptionInfo:
-        romano_a_entero('IIX')
+        romano_a_entero('IIIX')
     
     assert str(exceptionInfo.value) == "No se pueden restar repetidos"
+
+
